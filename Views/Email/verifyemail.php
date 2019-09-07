@@ -9,7 +9,7 @@ session_start();
 ?>
 <html>
 <head>
-	<title>login</title>
+	<title>Verify Email</title>
 	<style>
 	* { margin: 0px; padding: 0px; }
 body {
@@ -105,27 +105,22 @@ form, .content {
 </head>
 <body>
 <div class="header">
-	<h2>Login</h2>
+	<h2>Verify Email</h2>
 </div>
-<form method="post" action="login">
+<form method="post" action="verifyemail">
 
 	<div class="input-group">
 		<label>Email</label>
 		<input type="Email" name="Email" value="">
 	</div>
 	<div class="input-group">
-		<label>Password</label>
-		<input type="Password" name="Password">
+		<label>Token</label>
+		<input type="token" name="token">
 	</div>
 	<div class="input-group">
-		<button type="submit" class="btn" name="login_btn" >Login</button>
+		<button type="submit" class="btn" name="verify_btn" >Verify</button>
 	</div>
-	<p>
-		Forgot Password ? <a href="/email/forgotpassword">Click Here</a>
-	</p>
-	<p>
-		No Account ? <a href="/users/create">Click Here</a>
-	</p>
+
 </form>
 </body>
 </html>

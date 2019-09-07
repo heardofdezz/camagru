@@ -19,7 +19,7 @@
         }
         public function create()
         {
-            // $passwd = "";
+            // require(ROOT . 'Controllers/emailController.php');
             if (isset($_POST["Nom"]) && isset($_POST["Prenom"]) && isset($_POST["Address"]) && isset($_POST["Ville"]) && isset($_POST["Zipcode"]) && isset($_POST["Email"]) && isset($_POST["Password"]) && isset($_POST["Password2"]))
 	        {
                 require(ROOT . 'Models/User.php');
@@ -34,21 +34,20 @@
 		        $email = htmlspecialchars($_POST["Email"]);
 		        $passwd1 = htmlspecialchars($_POST["Password"]);
 		        $passwd2 = htmlspecialchars($_POST["Password2"]);
-
+                $verified = false; 
+                $token = rand( 1, 100);
+                
                 if(preg_match("/^.+@.+\..+$/", $email) && $passwd1 === $passwd2)
                 {
                     if (isset($passwd1) && $passwd1 === $passwd2)
                     {
-                        // $passwd = hash("whirlpool", $passwd1);
-                        if ($user->create($nom, $prenom, $address, $ville, $zipcode, $email, hash("whirlpool", $passwd1)))
-                        {
-                           // header("Location: " . WEBROOT . "users/home");
-                            //echo "Utilisateur créé avec succès !\n";
-                             $this->render("home");
-                        }
+                        $user->create($nom, $prenom, $address, $ville, $zipcode, $email, hash("whirlpool", $passwd1), $verified, $token);
+                       //verifyEmail($email, $token); 
+                        header("location: /email/index");
+                        exit;
+                        
                     }
                 }
-  
 	            if (!isset($user))
 	            {
 		            echo "<title>Echec de la création</title>";
@@ -59,40 +58,66 @@
                 }
             }
         }
+        
         public function login()
         {
-             var_dump("login triggered !");
-          
             if(isset($_POST["login_btn"]))
             {
+                require(ROOT . 'Models/User.php');
+
                 //var_dump("login triggered !");
-                $email = $_POST["Email"];
-                $passwd = hash("whirlpool", $_POST["Password"]);
-                $sql = "SELECT Email, Password, User_id FROM users /*WHERE Email=?, Password=?*/";
+                $email = htmlspecialchars($_POST["Email"]);
+                $passwd = htmlspecialchars(hash("whirlpool", $_POST["Password"]));
+                $sql = "SELECT Email, Password, User_id, Nom, Prenom, verified FROM users";
                 $req = Database::getBdd()->query($sql);
                 $res = $req->fetchAll();
-                //$req->execute(array($email,$passwd));
-                // var_dump($res[0]['Email']);
-                //  exit;
+                // $verified = $res[$k]['verified'];
                 foreach ($res as $k => $v)
-                {
-                    var_dump($res[$k][$k]);
-                    if($res[$k]['Email'] === $email && $res[$k]['Password'] === $passwd)
+                { 
+                    // $verified = $res[$k]['verified'];
+                    if($res[$k]['Email'] === $email && $res[$k]['Password'] === $passwd && $res[$k]['verified'] > 0)
                     {
-                        var_dump($res[$k]['Email']);
-       
+                        // if ($res[$k]['verified'] === 1)
+                        
+                        session_start();
+                        $user = $res[$k];
+                        var_dump($user);
+                        exit;
+                        $_SESSION['verified'] = $res[$k]['verified'];
                         $_SESSION['User_id'] = $res[$k]['User_id'];
-                         var_dump($_SESSION['User_id']);
-                         header("location: home");
+                        $_SESSION['Email'] = $res[$k]['Email'];
+                        $_SESSION['Nom'] = $res[$k]['Nom'];
+                        $_SESSION['Prenom'] = $res[$k]['Prenom'];
+                    
+                         if(isset($_SESSION['User_id']))
+                        { 
+                            header("Location: " . WEBROOT . "users/home");
+                            exit;
+                        }
                     } 
                     
                      else
                      {
-                         $message = "Username/Password is wrong";
+                         $messag = "Username/Password is wrong";
                     }
                 }
             }
     
+        }
+       
+        public function logout()
+        {
+            // var_dump("ici");
+            // die();
+            // session_destroy();
+            session_destroy();
+            // session_unset('User_id');
+            $_SESSION['User_id'] = '';
+            $_SESSION['Nom'] = '';
+            $_SESSION['Email'] = '';
+            $_SESSION['Prenom'] = '';
+            $_SESSION = NULL;
+          
         }
         function isLoggedIn()
         {
@@ -104,20 +129,23 @@
 	        }
         }
         // return user array from their id
-        function getUserById($id){
+        function getUserById(){
 	    
-	    $sql = "SELECT * FROM users WHERE id=" . $id;
+	    $sql = "SELECT * FROM users WHERE User_id=" . $User_id;
 	    $req = Database::getBdd()->prepare($sql);
 	    
 	    return $req->execute($sql);
 }
-        public function edit($id)
+        public function edit()
         {
             require(ROOT . 'Models/User.php');
-
-            $user = new User();
-            
-            $d["user"] = $user ->showUser($id);
+            // if (isset($_SESSION['verified']))
+            // {
+                $user = new User();
+                $d["user"] = $user ->showUser($User_id);
+                // var_dump($user);
+                // var_dump($_SESSION);
+            // }
         }
        public function delete($id)
        {

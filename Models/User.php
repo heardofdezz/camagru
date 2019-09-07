@@ -1,12 +1,12 @@
 <?php
     class User extends Model
     {
-        public function create($nom, $prenom, $address, $ville, $zipcode,$email, $passwd1)
+        public function create($nom, $prenom, $address, $ville, $zipcode,$email, $passwd1, $verified, $token)
         {
-            $sql = "INSERT INTO users(Nom, Prenom, Address, Ville, Zipcode, Email, Password) VALUES(:nom, :prenom, :address, :ville, :zipcode, :email, :password)";
+            $sql = "INSERT INTO users(Nom, Prenom, Address, Ville, Zipcode, Email, Password, verified, token) VALUES(:nom, :prenom, :address, :ville, :zipcode, :email, :password, :verified, :token)";
            
             $req = Database::getBdd()->prepare($sql);
-            
+
             $req->execute([
                 'nom' => $nom,
                 'prenom' => $prenom,
@@ -14,11 +14,14 @@
                 'ville' => $ville,
                 'zipcode' => $zipcode,
                 'email' => $email,
-                'password' => $passwd1
+                'password' => $passwd1,
+                'verified' => $verified,
+                'token' => $token
                 ]);
             
             return $req;
         }
+     
         
         public function showUser($id)
         {
@@ -30,7 +33,7 @@
         public function showAllUsers()
         {
             $sql = "SELECT * FROM users";
-            $req = $req = Database::getBdd()->prepare($sql);
+            $req = Database::getBdd()->prepare($sql);
             $req->execute();
             return $req->fetchAll();
         }

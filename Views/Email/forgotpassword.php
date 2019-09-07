@@ -9,7 +9,7 @@ session_start();
 ?>
 <html>
 <head>
-	<title>login</title>
+	<title>Forgot Password</title>
 	<style>
 	* { margin: 0px; padding: 0px; }
 body {
@@ -105,27 +105,17 @@ form, .content {
 </head>
 <body>
 <div class="header">
-	<h2>Login</h2>
+	<h2>Recover Password</h2>
 </div>
-<form method="post" action="login">
+<form method="post" action="forgotpassword">
 
 	<div class="input-group">
-		<label>Email</label>
+		<label>Enter email used on signing up</label>
 		<input type="Email" name="Email" value="">
 	</div>
 	<div class="input-group">
-		<label>Password</label>
-		<input type="Password" name="Password">
+		<button type="submit" class="btn" name="forgotpass_btn" >Submit</button>
 	</div>
-	<div class="input-group">
-		<button type="submit" class="btn" name="login_btn" >Login</button>
-	</div>
-	<p>
-		Forgot Password ? <a href="/email/forgotpassword">Click Here</a>
-	</p>
-	<p>
-		No Account ? <a href="/users/create">Click Here</a>
-	</p>
 </form>
 </body>
 </html>

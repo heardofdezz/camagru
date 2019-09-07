@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	@session_start();
 ?>
 
 <!doctype html>
@@ -171,27 +171,36 @@ ul {
 		</li>
 		<li class="nav_account">
 			<!-- If user is logged in and set -->
-			{%IF session.user}
+			<?php if(isset($_SESSION['User_id'])){echo $_SESSION['Nom'];}?>
 			<a href="/users/">
 				<span><i class="fas fa-user-circle"></i>
-					<span class="nav-text" style="white-space: nowrap;">{{session.user.username_cut}}</span>
+					<span class="nav-text" style="white-space: nowrap;"><img src="/icon/users.svg"></span>
 				</span>
 			</a>
+			<?php		
+if(isset($_SESSION['User_id'])) {
+?>
 			<ul class="ani">
+			<!-- <?= $_SESSION['Nom'];?> -->
 				<li><a href="/users/profile">Profile</a></li>
 				<li><a href="/users/edit">Réglages</a></li>
 				<li><a href="/users/logout">Logout</a></li>
 				<div class='handler'></div>
 			</ul>
-			{%END}
-			{%IFN session.user}
-			<!--else usr isnt set  -->
-            <ul class="ani">
-				<li><a href="/Users/login">Login</a></li>
-				<li><a href="/Users/create">Sign up</a></li>
-				<div class='handler'></div>
+			<?php
+}else{
+
+	?>
+			<ul class="ani">
+			<li><a href="/Users/login">Login</a></li>
+			<li><a href="/Users/create">Sign up</a></li>
+			<div class='handler'></div>
 			</ul>
-       		{%END}
+			<!--HTML  -->
+<?php
+} ?>
+		
+			
 		</li>
 	</ul>
 </header>

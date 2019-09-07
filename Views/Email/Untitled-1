@@ -1,0 +1,19 @@
+
+
+'<!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <title>Password Reset</title>
+            </head>
+            <body>
+            <div class="wrapper">
+            <p>
+            Your request to reset your password has been received, click on the link below to reset your password.
+            </p>
+            $_SESSION['token'] = $token;
+             $_SESSION['Email] = $email;
+            <a href="http://localhost:8080/email/resetpassword">Verify your email</a>
+            </div>
+            </body>
+            </html>';

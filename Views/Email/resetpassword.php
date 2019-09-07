@@ -1,15 +1,17 @@
-<?php  
+<?php 
+var_dump($_SESSION);
+exit; 
 session_start();
-	if (isset($_SESSION['User_id']))
+	if (!(isset($_SESSION['token']) && isset($_SESSION['email'])))
 	{
-		session_destroy();
+		header("Location: /users/login");
 		session_start();
 	}
 
 ?>
 <html>
 <head>
-	<title>login</title>
+	<title>Reset Password</title>
 	<style>
 	* { margin: 0px; padding: 0px; }
 body {
@@ -105,27 +107,19 @@ form, .content {
 </head>
 <body>
 <div class="header">
-	<h2>Login</h2>
+	<h2>Reset Password</h2>
 </div>
-<form method="post" action="login">
+<form method="post" action="resetpassword">
 
 	<div class="input-group">
-		<label>Email</label>
-		<input type="Email" name="Email" value="">
+		<label>New Password</label>
+		<input type="password" name="Password" value="" placeholder="Password">
+		<input type="password2" name="Password2" value="" placeholder="Retapez votre Password">
+
 	</div>
 	<div class="input-group">
-		<label>Password</label>
-		<input type="Password" name="Password">
+		<button type="submit" class="btn" name="resetpass_btn" >Submit</button>
 	</div>
-	<div class="input-group">
-		<button type="submit" class="btn" name="login_btn" >Login</button>
-	</div>
-	<p>
-		Forgot Password ? <a href="/email/forgotpassword">Click Here</a>
-	</p>
-	<p>
-		No Account ? <a href="/users/create">Click Here</a>
-	</p>
 </form>
 </body>
 </html>

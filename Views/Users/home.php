@@ -1,9 +1,13 @@
 <?php
+session_start();
+//  var_dump($_SESSION['User_id']);
 	if (!isset($_SESSION['User_id']))
 	{  
-      header("Location: " . WEBROOT . "users/login");
-		exit;
+   
+     header("Location: " . WEBROOT . "users/login");
+    // exit;
   }
+
 ?>
 
 
