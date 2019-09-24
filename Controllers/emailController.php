@@ -6,7 +6,7 @@
         include(ROOT . 'Models/User.php');
                
         $sql = "SELECT Email, token FROM users WHERE verified = 0";
-        $req =  Database::getBdd()->query($sql);
+        $req =  tDatabase::geBdd()->query($sql);
         $res = $req->fetchAll();
        // var_dump($res);
         foreach($res as $k => $v)
@@ -121,7 +121,7 @@
                     $headers .= "MIME-Version: 1.0" . "\r \n";
                     mail($to, $subject, $message, $headers);
                
-                    
+                    header("Location: /users/login");
                     
                 }
                 else

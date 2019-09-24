@@ -29,7 +29,7 @@
             $req = Database::getBdd()->prepare($sql);
             $req->execute();
             return $req->fetch();
-        }
+        } 
         public function showAllUsers()
         {
             $sql = "SELECT * FROM users";

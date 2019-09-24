@@ -1,19 +1,75 @@
+/// Anonym function that initialize very action
+var streaming = false,
+    video        = document.querySelector('#video'), // WEBCAM STREAM
+    cover        = document.querySelector('#cover'),
+    canvas       = document.querySelector('#canvas'),
+    photo        = document.querySelector('#photo'),
+    startbutton  = document.querySelector('#startbutton'),
+    save         = document.querySelector('#'),
+    uploadImage  = document.querySelector('#'),
+    width = 600,
+    height = 600;
+    var constraints = { audio: false, video: { width: 600, height: 600 } }; 
 
 
-'<!DOCTYPE html>
-            <html lang="en">
-            <head>
-            <meta charset="UTF-8">
-            <title>Password Reset</title>
-            </head>
-            <body>
-            <div class="wrapper">
-            <p>
-            Your request to reset your password has been received, click on the link below to reset your password.
-            </p>
-            $_SESSION['token'] = $token;
-             $_SESSION['Email] = $email;
-            <a href="http://localhost:8080/email/resetpassword">Verify your email</a>
-            </div>
-            </body>
-            </html>';
+   //Get access to the camera
+	navigator.mediaDevices.getUserMedia(constraints)
+	.then(function(mediaStream) {
+	    var video = document.querySelector('video');
+	    video.srcObject = mediaStream;
+	    video.onloadedmetadata = function(e) {
+	    	video.play();
+	    };
+    })
+    .catch(function(err) {
+		console.log("Error stream: " + err);
+    });
+    
+	video.addEventListener('canplay', function(ev){
+	if (!streaming) {
+		height = video.videoHeight / (video.videoWidth/width);
+		video.setAttribute('width', width);
+		video.setAttribute('height', height);
+		canvas.setAttribute('width', width);
+		canvas.setAttribute('height', height);
+		streaming = true;
+	}
+	}, false);
+
+  /// Take a picture now
+  /// Event basedon start button eventlistener
+  startbutton.addEventListener('click', function(ev){
+    takepicture();
+  ev.preventDefault();
+}, false);
+// take picture function 
+// assigning the took the img tag src
+function takepicture() {
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+    var data = canvas.toDataURL('image/png');
+    photo.setAttribute('src', data);
+  }
+
+///// Upload picture
+function uploadpicture()
+{
+  canvas.width = width;
+  canvas.height = height;
+}
+
+/////
+
+//////////////////////
+
+
+<p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+<p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+<p><img id="output" width="200" /></p>
+
+<script>
+var loadFile = function(event) {
+	var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+};

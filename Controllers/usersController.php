@@ -81,8 +81,8 @@
                         
                         session_start();
                         $user = $res[$k];
-                        var_dump($user);
-                        exit;
+                        // var_dump($user);
+                        // exit;
                         $_SESSION['verified'] = $res[$k]['verified'];
                         $_SESSION['User_id'] = $res[$k]['User_id'];
                         $_SESSION['Email'] = $res[$k]['Email'];
@@ -154,4 +154,4 @@
            return $req->execute($id);
        }
     }
-?>
+?>0
