@@ -6,9 +6,55 @@
     <head>
      <meta charset="utf-8">
     <title>Camagru Project 42</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css">
+@media (max-width: 414px) {
+  .container-headline {
+    display: none;
+  }
 
+  .results, .preview {
+    width: 100%;
+  }
+
+  #canvas-container {
+    top: -750px;
+  }
+
+  .live {
+    margin-bottom: 750px;
+  }
+
+  .webcam > .preview {
+    border-right: none;
+  }
+
+  .filter {
+    width: 50px;
+    height: 50px;
+  }
+
+  .min {
+    width: 100%;
+    text-align: center;
+  }
+
+  form#formPicture {
+    padding: 0;
+    width: 100%;
+  }
+
+  .filters {
+    width: 100%;
+  }
+
+  .webcam {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
 body, html {
   background: url("/bckground.gif") fixed;
 }
